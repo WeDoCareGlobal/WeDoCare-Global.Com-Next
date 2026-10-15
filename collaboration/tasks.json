@@ -6,16 +6,16 @@
       "id": "WDC-WEB-001",
       "title": "Save accepted static preview and project registry",
       "owner": "ChatGPT",
-      "state": "completed_locally_pending_remote_verification"
+      "state": "completed"
     },
     {
       "id": "WDC-WEB-002",
-      "title": "Desktop/mobile browser QA and evidence",
+      "title": "Desktop/mobile browser QA of candidate-v3 and evidence",
       "owner": null,
       "suggested_owner": "Hermes",
       "state": "ready",
       "depends_on": [
-        "WDC-WEB-001"
+        "WDC-WEB-004"
       ]
     },
     {
@@ -27,6 +27,15 @@
       "depends_on": [
         "WDC-WEB-002"
       ]
+    },
+    {
+      "id": "WDC-WEB-004",
+      "title": "Static product pages, metadata, contact integration and CSS cleanup",
+      "owner": "ChatGPT",
+      "state": "implemented_checks_passed",
+      "browser_qa": "pending",
+      "mail_delivery": "not_tested",
+      "publication_allowed": false
     }
   ]
 }
