@@ -1,0 +1,11 @@
+name: Validate static preview
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check_site.py .
+      - run: node --check app.js && node --check shared.js && node --check project-demos.js
