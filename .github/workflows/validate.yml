@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 scripts/check_site.py .
-      - run: node --check app.js && node --check shared.js && node --check project-demos.js
+      - run: node --check app.js && node --check shared.js && node --check project-demos.js && node --check assessment-form.js && node --check film-play.js
