@@ -13,7 +13,7 @@ jobs:
       - name: Validate static site
         run: python3 scripts/check_site.py .
       - name: Validate JavaScript syntax
-        run: node --check app.js && node --check shared.js && node --check project-demos.js
+        run: node --check app.js && node --check shared.js && node --check project-demos.js && node --check assessment-form.js && node --check film-play.js
       - name: Verify OmniGuard project page and homepage link
         run: |
           python3 - <<'PY'
