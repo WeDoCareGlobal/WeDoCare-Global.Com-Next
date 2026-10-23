@@ -1,0 +1,12 @@
+/* Mobile staging refinements. External stylesheet avoids changing hashed inline CSS. */
+:root { --mobile-masthead-offset: 132px; }
+html { scroll-padding-top: var(--mobile-masthead-offset); }
+[id] { scroll-margin-top: var(--mobile-masthead-offset); }
+@media (max-width: 700px) {
+  .pledge-figure span { color: #344b5c; }
+  .pledge p { color: #344b5c; }
+  .pledge small { color: #405568; }
+  .pledge .link-bone { color: #245b80; }
+  .pledge .link-bone:focus-visible { outline: 2px solid #245b80; outline-offset: 3px; }
+  .contact a[href^="mailto:"], a[href^="mailto:"] { overflow-wrap: anywhere; }
+}
