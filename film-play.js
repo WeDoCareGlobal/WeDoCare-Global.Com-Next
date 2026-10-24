@@ -1,31 +1,40 @@
-/* Keep the original v5 playback logic; add a visible manual play affordance. */
+/* Accessible manual playback for browsers that block autoplay. */
 (() => {
   'use strict';
   const video = document.getElementById('brand-video');
   const overlay = document.getElementById('film-play-overlay');
   if (!video || !overlay) return;
-  const sync = () => { overlay.hidden = !video.paused && !video.ended; };
+
+  const sync = () => {
+    const playing = !video.paused && !video.ended;
+    overlay.hidden = playing;
+    if (!playing) {
+      overlay.disabled = false;
+      overlay.textContent = video.ended ? 'Replay video' : 'Play video';
+      overlay.setAttribute('aria-label', video.ended ? 'Replay brand video' : 'Play brand video');
+    }
+  };
+
   const fail = () => {
     overlay.hidden = false;
-    overlay.disabled = true;
-    overlay.textContent = 'Video unavailable';
-    overlay.setAttribute('aria-label', 'Brand video unavailable');
+    overlay.disabled = false;
+    overlay.textContent = 'Retry video';
+    overlay.setAttribute('aria-label', 'Retry playing brand video');
   };
+
   overlay.addEventListener('click', async () => {
     overlay.disabled = true;
     try {
-      video.load();
+      // Preserve the user's play gesture; calling load() here can reset playback.
+      if (video.ended) video.currentTime = 0;
       await video.play();
-      sync();
     } catch (_) {
-      overlay.hidden = false;
-      overlay.textContent = 'Tap to retry video';
-      overlay.setAttribute('aria-label', 'Retry playing brand video');
+      fail();
     } finally {
-      overlay.disabled = false;
+      if (!overlay.hidden) overlay.disabled = false;
     }
   });
-  video.addEventListener('play', sync);
+  video.addEventListener('playing', sync);
   video.addEventListener('pause', sync);
   video.addEventListener('ended', sync);
   video.addEventListener('error', fail);
