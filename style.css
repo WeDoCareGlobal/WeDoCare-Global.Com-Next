@@ -75,3 +75,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 
 @media(max-width:768px){body:not(.enhanced) header{flex-wrap:wrap}body:not(.enhanced) header nav{display:flex;position:static;flex-basis:100%;flex-wrap:wrap;gap:18px;padding:16px 0;background:transparent}body:not(.enhanced) header nav a{display:block}}
+
+
+/* OmniGuard and project feature layouts: prevent text collision at desktop
+   zoom and narrower viewports. */
+.project-page,.project-page section,.project-page article{min-width:0}
+.project-page .project-grid>*{min-width:0}
+.project-page p,.project-page li,.project-page h2,.project-page h3{overflow-wrap:break-word}
+.project-page a{overflow-wrap:anywhere}
+@media (min-width:769px) and (max-width:1050px){
+  .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:768px){
+  .project-grid{grid-template-columns:minmax(0,1fr)}
+}
