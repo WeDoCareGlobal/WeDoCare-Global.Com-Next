@@ -1,0 +1,36 @@
+name: Verify Vercel publication artifact
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-static-output:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build the exact Vercel output
+        run: node scripts/build-vercel.mjs
+      - name: Validate deployed pages, internal links and asset paths
+        run: python3 scripts/check_site.py dist
+      - name: Check JavaScript syntax
+        run: |
+          node --check dist/app.js
+          node --check dist/shared.js
+          node --check dist/project-demos.js
+      - name: Confirm critical project pages are packaged
+        run: |
+          test -s dist/index.html
+          test -s dist/omniguard.html
+          test -s dist/404.html
+          test -s dist/style.css
+          test -s dist/sitemap.xml
+          test -s dist/logo-small.webp
