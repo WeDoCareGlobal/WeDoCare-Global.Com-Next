@@ -8,11 +8,11 @@ const output = join(root, 'dist');
 const excluded = new Set(['.git', '.github', 'dist', 'node_modules', 'scripts', 'docs', 'website', 'collaboration', 'previews']);
 await mkdir(output, { recursive: true });
 for (const entry of await readdir(root)) {
-  if (excluded.has(entry) || entry.startsWith('.') || entry.endsWith('.md')) continue;
+  if (excluded.has(entry) || (entry.startsWith('.') && entry !== '.well-known') || entry.endsWith('.md')) continue;
   const from = join(root, entry);
   const to = join(output, entry);
   const info = await stat(from);
-  if (info.isFile() || entry === 'fonts') {
+  if (info.isFile() || entry === 'fonts' || entry === '.well-known') {
     await cp(from, to, {recursive: true});
   }
 }
