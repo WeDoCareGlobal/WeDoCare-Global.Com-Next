@@ -2,6 +2,24 @@
   "version": 2,
   "buildCommand": "node scripts/build-vercel.mjs",
   "outputDirectory": "dist",
+  "framework": null,
   "cleanUrls": false,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/assets/logo-small.webp",
+      "destination": "/logo-small.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/brand-poster.jpg",
+      "destination": "/brand-poster.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/brand-motion.mp4",
+      "destination": "/brand-motion.mp4",
+      "permanent": true
+    }
+  ]
 }
