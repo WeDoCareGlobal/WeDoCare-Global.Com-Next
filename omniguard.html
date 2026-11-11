@@ -1,1 +1,398 @@
-test
+<!DOCTYPE html>
+<html data-palette="blue" lang="en">
+<head>
+<link rel="canonical" href="https://www.wedocare-global.com/omniguard/"/>
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9ULPhlDV18ra8M09K0rxb4OSzGg6Q0QOhFaME/Feft4=' 'sha256-p5HXXd/yIfpeLrUEEzME+hzHvVTtjdjLqxqumI2zRLg='; style-src 'self' 'sha256-ufb3DW7j5wENqLGEfLFPidFrBowvWGUGswS5E1RRM84=' 'sha256-rTI3XaZX9BG4UlJtolK26Hu8pBZ2wN5Lks2DXMP1AX8=' 'sha256-p6bpCHa2WYuRIww57iFuY7pbT5sSr6XTmTp1DVV7/Jw=' 'sha256-9sOIYzKKBpb3vjMCZAK9niUC0uQ6SdG9ThHm67Derok='; img-src 'self' data: https://wedocare-global.com; font-src 'self' https://wedocare-global.com; media-src 'self' https://wedocare-global.com; connect-src 'self' https://wdcg-agentguard-api.emirperla96.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#0a0b0c" name="theme-color"/>
+<title>OmniGuard | We Do Care Global</title>
+<meta content="OmniGuard is the control plane for enterprise AI agents. Authorize tool access, protect credentials, and create audit evidence before an agent acts." name="description"/>
+<link href="logo-small.webp" rel="icon"/>
+<link href="mobile-preview-fixes.css" rel="stylesheet"/>
+<link href="style.css?v=6" rel="stylesheet"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="We Do Care Global"/>
+<meta property="og:title" content="OmniGuard | We Do Care Global"/>
+<meta property="og:description" content="OmniGuard is the control plane for enterprise AI agents. Authorize tool access, protect credentials, and create audit evidence before an agent acts."/>
+<meta property="og:url" content="https://www.wedocare-global.com/omniguard/"/>
+<meta property="og:image" content="https://wedocare-global.com/brand-poster.jpg"/>
+<meta property="og:image:alt" content="We Do Care Global infrastructure brand artwork"/>
+<meta name="twitter:card" content="summary_large_image"/>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+<div class="shell">
+<a class="brand" href="index.html#main" aria-label="We Do Care Global home">
+<img src="logo-small.webp" width="96" height="96" alt="We Do Care Global original logo"/>
+<span>WE DO CARE<span class="brand-sub">G L O B A L</span></span>
+</a>
+<nav id="main-nav" aria-label="Main navigation">
+<a href="index.html#systems">Systems</a>
+<a href="index.html#approach">Approach</a>
+<a href="index.html#proof">Evidence</a>
+<a href="omniguard.html" aria-current="page">OmniGuard</a>
+<a href="https://shop.wedocare-global.com/" target="_blank" rel="noopener">Shop</a>
+</nav>
+<a class="button small" href="index.html#contact">Start Pilot</a>
+<button class="menu" hidden aria-controls="main-nav" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+</div>
+</header>
+<main id="main" class="wrap project-page">
+<a class="text-link" href="index.html#systems">← All systems</a>
+<div class="eyebrow gold">WE DO CARE GLOBAL / OPEN ENGINEERING</div>
+
+<!-- HERO -->
+<section class="panel hero-panel" aria-labelledby="hero-title">
+<h1 id="hero-title">Give AI agents boundaries.<br/>Prove every action.</h1>
+<p class="lede">OmniGuard is the control plane for enterprise AI agents. Authorize tool access, protect credentials, and create audit evidence before an agent acts.</p>
+<div class="hero-ctas">
+<a class="button" href="#demo">Start governed-agent pilot</a>
+<a class="button outline" href="#demo">See 90-second demo</a>
+</div>
+<div class="deployment-badges">
+<span class="badge">SaaS</span>
+<span class="badge">Private VPC</span>
+<span class="badge">Air-gapped</span>
+</div>
+</section>
+
+<!-- LIVE CONTROL DEMO -->
+<section id="demo" class="panel demo-panel" aria-labelledby="demo-title">
+<h2 id="demo-title">Live control example</h2>
+<p>See the boundary before the action happens. An agent requests: <strong>&ldquo;Delete inactive customer records.&rdquo;</strong></p>
+<p>OmniGuard inspects the request, checks the trust boundary, evaluates tool policy, scores session risk, and returns a governed decision:</p>
+
+<div class="decision-trace" id="decision-trace">
+<div class="trace-line"><span class="trace-label">injection_check</span><span class="trace-value pass">PASS — no instruction override pattern</span></div>
+<div class="trace-line"><span class="trace-label">trust_boundary</span><span class="trace-value pass">PASS — source marked untrusted</span></div>
+<div class="trace-line"><span class="trace-label">vault_lookup</span><span class="trace-value pass">2 scoped credentials resolved</span></div>
+<div class="trace-line"><span class="trace-label">policy_engine</span><span class="trace-value review">REVIEW: destructive action</span></div>
+<div class="trace-line"><span class="trace-label">session_risk</span><span class="trace-value pass">0.18 / elevated</span></div>
+<div class="trace-line"><span class="trace-label">governance</span><span class="trace-value review">Human approval required</span></div>
+</div>
+
+<div class="decision-verdict blocked">
+<span class="verdict-label">Decision:</span>
+<span class="verdict-value">BLOCKED PENDING APPROVAL</span>
+</div>
+
+<div class="evidence-note">
+Evidence: hash-linked audit record created <code id="audit-hash">0x8f31…c204 · prev 0x2ab7…9e11</code>
+</div>
+
+<div class="demo-controls">
+<button class="button" id="run-demo">Run inspection</button>
+<button class="button outline" id="reset-demo">Reset</button>
+</div>
+</section>
+
+<!-- PROBLEM -->
+<section class="panel" aria-labelledby="problem-title">
+<h2 id="problem-title">The problem</h2>
+<div class="problem-grid">
+<div class="problem-card">
+<h3>AI agents are becoming operational</h3>
+<p>They can read data, call tools, spend money, and touch production systems.</p>
+</div>
+<div class="problem-card">
+<h3>Without explicit policy and inspectable evidence</h3>
+<p>Autonomy becomes operational risk.</p>
+</div>
+<div class="problem-card">
+<h3>Security reviews block deployment</h3>
+<p>Teams cannot expand agent access until actions are constrained, approvals required, and decisions explainable.</p>
+</div>
+</div>
+</section>
+
+<!-- PLATFORM -->
+<section class="panel" aria-labelledby="platform-title">
+<h2 id="platform-title">One control plane. Four enforcement layers.</h2>
+<div class="platform-grid">
+<article class="platform-card">
+<div class="platform-icon">🛡️</div>
+<h3>AgentGuard</h3>
+<p>Authorize tool calls, enforce limits, and record inspectable decisions.</p>
+<ul>
+<li>Default-deny policy engine</li>
+<li>Per-agent rate limits</li>
+<li>HMAC-chained audit log</li>
+<li>Human-in-the-loop approvals</li>
+<li>Kill-switch coordination</li>
+</ul>
+</article>
+<article class="platform-card">
+<div class="platform-icon">🔐</div>
+<h3>AgentVault</h3>
+<p>Protect secrets, register tools, and keep agent execution bounded.</p>
+<ul>
+<li>Tool registry with OpenAPI import</li>
+<li>Secret lifecycle & rotation</li>
+<li>Bounded execution envelopes</li>
+<li>RBAC & rate limiting</li>
+<li>Hash-chained audit ledger</li>
+</ul>
+</article>
+<article class="platform-card">
+<div class="platform-icon">📊</div>
+<h3>Agent Eval</h3>
+<p>Prove quality and safety before expanding agent autonomy.</p>
+<ul>
+<li>Token telemetry & latency tracking</li>
+<li>Tool path tracing (allow/deny/approval)</li>
+<li>Error classification</li>
+<li>Continuous evaluation suites</li>
+<li>AgentGuard audit integration</li>
+</ul>
+</article>
+<article class="platform-card">
+<div class="platform-icon">🔍</div>
+<h3>Enterprise Hybrid-RAG</h3>
+<p>Ground answers in governed enterprise knowledge.</p>
+<ul>
+<li>BM25 + dense retrieval (RRF)</li>
+<li>NVIDIA NeMo Retriever embeddings</li>
+<li>Multi-modal: text, charts, structured data</li>
+<li>RAGAS continuous evaluation</li>
+<li>SSE streaming</li>
+</ul>
+</article>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="panel" aria-labelledby="how-title">
+<h2 id="how-title">How it works</h2>
+<ol class="steps">
+<li>
+<span class="step-number">1</span>
+<div>
+<h3>Register agent & tools</h3>
+<p>Define agents, tools, data sources, and risk tiers in the policy.</p>
+</div>
+</li>
+<li>
+<span class="step-number">2</span>
+<div>
+<h3>Define policy & approvals</h3>
+<p>Set allow/block/review rules, rate limits, and human approvers.</p>
+</div>
+</li>
+<li>
+<span class="step-number">3</span>
+<div>
+<h3>Route actions through OmniGuard</h3>
+<p>Every agent request passes through the 6-layer inspection pipeline.</p>
+</div>
+</li>
+<li>
+<span class="step-number">4</span>
+<div>
+<h3>Approve, block, or allow with evidence</h3>
+<p>Decisions returned with governance headers and audit chain.</p>
+</div>
+</li>
+<li>
+<span class="step-number">5</span>
+<div>
+<h3>Export evidence to SIEM / GRC</h3>
+<p>Hash-linked audit records exported to Splunk, Elastic, Datadog, or webhook.</p>
+</div>
+</li>
+</ol>
+</section>
+
+<!-- PROOF -->
+<section class="panel" aria-labelledby="proof-title">
+<h2 id="proof-title">Trust should be inspectable</h2>
+<p class="lede">Read the source, review the architecture, inspect the threat model, and see how evidence moves from agent action to enterprise audit system.</p>
+<div class="proof-links">
+<a class="button" href="https://github.com/WeDoCareGlobal/agentguard-next" target="_blank" rel="noopener">Security architecture</a>
+<a class="button outline" href="https://github.com/WeDoCareGlobal/AgentVault-Next" target="_blank" rel="noopener">Threat model</a>
+<a class="button outline" href="https://github.com/WeDoCareGlobal/WeDoCare-Global.Com-Next" target="_blank" rel="noopener">Integrations</a>
+<a class="button outline" href="https://wedocare-global.com/docs" target="_blank" rel="noopener">Documentation</a>
+<a class="button outline" href="#demo">Live demo</a>
+</div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="panel pricing-panel" aria-labelledby="pricing-title">
+<h2 id="pricing-title">Start free. Scale with control.</h2>
+<div class="pricing-table">
+<div class="pricing-card">
+<h3>Community</h3>
+<div class="price"><span class="amount">Free</span></div>
+<ul>
+<li>Local-only usage</li>
+<li>1 workspace</li>
+<li>Basic policies</li>
+<li>Local audit</li>
+<li>Community support</li>
+</ul>
+<a class="button full-width" href="https://github.com/WeDoCareGlobal/agentguard-next">Self-host</a>
+</div>
+<div class="pricing-card popular">
+<div class="popular-badge">Most popular</div>
+<h3>Team</h3>
+<div class="price"><span class="amount">€750</span><span class="period">/mo</span></div>
+<p class="price-note">Annual commitment</p>
+<ul>
+<li>Hosted control plane</li>
+<li>SSO (OIDC/SAML)</li>
+<li>Policy Studio</li>
+<li>90-day audit retention</li>
+<li>Standard support</li>
+<li>€0.005/governed action</li>
+</ul>
+<a class="button full-width" href="#contact">Start trial</a>
+</div>
+<div class="pricing-card">
+<h3>Business</h3>
+<div class="price"><span class="amount">€5,000</span><span class="period">/mo</span></div>
+<p class="price-note">Annual commitment</p>
+<ul>
+<li>Unlimited agents/envs</li>
+<li>Advanced policy engine</li>
+<li>Custom connectors</li>
+<li>1-year audit retention</li>
+<li>Usage analytics</li>
+<li>Priority support</li>
+</ul>
+<a class="button full-width" href="#contact">Contact sales</a>
+</div>
+<div class="pricing-card">
+<h3>Enterprise</h3>
+<div class="price"><span class="amount">Custom</span></div>
+<p class="price-note">From €80K/yr</p>
+<ul>
+<li>Private/VPC deployment</li>
+<li>BYOK encryption</li>
+<li>SIEM/GRC export</li>
+<li>Premium SLA</li>
+<li>Dedicated success</li>
+<li>Security review support</li>
+</ul>
+<a class="button full-width" href="#contact">Contact sales</a>
+</div>
+<div class="pricing-card">
+<h3>Regulated</h3>
+<div class="price"><span class="amount">Custom</span></div>
+<p class="price-note">Enterprise + €20K–75K/yr</p>
+<ul>
+<li>Pharma/Finance/Healthcare</li>
+<li>Evidence packs</li>
+<li>Legal-hold controls</li>
+<li>Qualified-human workflows</li>
+<li>Validation documentation</li>
+<li>Dedicated support</li>
+</ul>
+<a class="button full-width" href="#contact">Contact sales</a>
+</div>
+</div>
+<div class="assessment-cta">
+<h3>Entry wedge: Agent Security Assessment</h3>
+<p>€7,500–25,000 fixed · 4–6 weeks · Agent inventory, threat model, policy design, AgentGuard deployment, 2 integrations, audit export, handover. Includes implementation credit toward Team/Enterprise.</p>
+<a class="button" href="#contact">Book assessment</a>
+</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="panel final-cta" aria-labelledby="cta-title">
+<h2 id="cta-title">Ready to govern your agents?</h2>
+<p>Book an Agent Security Assessment or start the governed-agent pilot.</p>
+<div class="cta-buttons">
+<a class="button" href="#contact">Book Agent Security Assessment</a>
+<a class="button outline" href="#demo">Start governed-agent pilot</a>
+</div>
+</section>
+</main>
+<footer class="wrap">
+<a class="brand" href="index.html#main">
+<img src="logo-small.webp" width="96" height="96" alt=""/>
+<span>WE DO CARE<span class="brand-sub">G L O B A L</span></span>
+</a>
+<p>Intelligence without blind spots.</p>
+<div>
+<a href="https://github.com/WeDoCareGlobal" target="_blank" rel="noopener">GitHub ↗</a>
+<a href="https://orcid.org/0009-0009-8515-2727" target="_blank" rel="noopener">ORCID ↗</a>
+<a href="index.html#contact">Contact ↗</a>
+<a href="evidence.html">Evidence</a>
+<a href="omniguard.html">OmniGuard</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Site terms</a>
+</div>
+<small>© 2026 We Do Care Global · Open engineering · 33% of annual corporate revenue pledged to humanitarian assistance</small>
+</footer>
+<script src="shared.js?v=5" defer></script>
+<script>
+(function(){
+  const traceLines = document.querySelectorAll('#decision-trace .trace-line');
+  const verdict = document.querySelector('.decision-verdict');
+  const auditHash = document.getElementById('audit-hash');
+  const runBtn = document.getElementById('run-demo');
+  const resetBtn = document.getElementById('reset-demo');
+  let running = false;
+  let step = 0;
+  const steps = [
+    {label: 'injection_check', pass: true, text: 'PASS — no instruction override pattern'},
+    {label: 'trust_boundary', pass: true, text: 'PASS — source marked untrusted'},
+    {label: 'vault_lookup', pass: true, text: '2 scoped credentials resolved'},
+    {label: 'policy_engine', pass: false, review: true, text: 'REVIEW: destructive action'},
+    {label: 'session_risk', pass: true, text: '0.18 / elevated'},
+    {label: 'governance', pass: false, review: true, text: 'Human approval required'},
+  ];
+  function animate() {
+    if (step >= steps.length) {
+      verdict.classList.remove('blocked');
+      verdict.classList.add('review');
+      verdict.querySelector('.verdict-value').textContent = 'REVIEW REQUIRED';
+      auditHash.textContent = '0x' + Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2,'0')).join('') + ' · prev 0x' + Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2,'0')).join('');
+      running = false;
+      runBtn.disabled = false;
+      return;
+    }
+    const line = traceLines[step];
+    const s = steps[step];
+    line.classList.remove('pending');
+    if (s.pass) {
+      line.classList.add('pass');
+      line.querySelector('.trace-value').textContent = s.text;
+    } else if (s.review) {
+      line.classList.add('review');
+      line.querySelector('.trace-value').textContent = s.text;
+    }
+    step++;
+    setTimeout(animate, 350);
+  }
+  runBtn.addEventListener('click', () => {
+    if (running) return;
+    running = true;
+    runBtn.disabled = true;
+    resetBtn.disabled = true;
+    verdict.classList.add('blocked');
+    verdict.classList.remove('review');
+    verdict.querySelector('.verdict-value').textContent = 'BLOCKED PENDING APPROVAL';
+    traceLines.forEach(l => { l.className = 'trace-line pending'; });
+    traceLines.forEach(l => l.querySelector('.trace-value').textContent = '—');
+    step = 0;
+    animate();
+  });
+  resetBtn.addEventListener('click', () => {
+    if (running) return;
+    traceLines.forEach(l => { l.className = 'trace-line'; });
+    traceLines.forEach(l => l.querySelector('.trace-value').textContent = '—');
+    verdict.classList.add('blocked');
+    verdict.classList.remove('review');
+    verdict.querySelector('.verdict-value').textContent = 'BLOCKED PENDING APPROVAL';
+    auditHash.textContent = '0x8f31…c204 · prev 0x2ab7…9e11';
+    runBtn.disabled = false;
+    resetBtn.disabled = false;
+    step = 0;
+  });
+})();
+</script>
+</body>
+</html>

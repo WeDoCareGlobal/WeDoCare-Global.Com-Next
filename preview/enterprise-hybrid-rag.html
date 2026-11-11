@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0a0b0c"/>
+<title>Enterprise Hybrid-RAG | We Do Care Global</title>
+<meta name="description" content="Connect enterprise knowledge with hybrid lexical and dense retrieval, fused through RRF."/>
+<link rel="icon" href="../logo-small.webp"/>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink:#0a0b0c;
+    --surface:#141617;
+    --surface-2:#1a1d1e;
+    --line:#2b2e30;
+    --line-soft:#232628;
+    --bone:#f4f1ea;
+    --text:#f2efe9;
+    --muted:#a29f96;
+    --dim:#848279;
+    --brass:#9bc8ee;
+    --brass-2:#c9e4f9;
+    --ok:#74b98c;
+    --warn:#d99a52;
+    --stop:#cd7061;
+    --radius:3px;
+    --radius-lg:6px;
+    --shell:1280px;
+    --sans:'Manrope','Segoe UI',Arial,sans-serif;
+    --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+    --mono:'JetBrains Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+    --step:clamp(0.72rem,0.68rem+0.18vw,0.8rem);
+    --shell-pad:clamp(20px,4vw,64px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:100px}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:var(--step);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  button,input,select,textarea{font:inherit}
+  button{cursor:pointer}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--brass);outline-offset:4px}
+  h1,h2,h3{font-family:var(--serif);line-height:1.15}
+  h1{font-size:clamp(32px,4vw,52px);font-weight:700;letter-spacing:-1px}
+  h2{font-size:clamp(26px,3vw,40px);font-weight:700;letter-spacing:-0.5px}
+  h3{font-family:var(--sans);font-weight:600;font-size:1.05rem;letter-spacing:-0.3px}
+  p{margin:0 0 1rem}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,0.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .shell{max-width:var(--shell);margin:0 auto;padding:0 var(--shell-pad)}
+  .header-wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;font-size:clamp(18px,1.8vw,22px);color:var(--text)}
+  .brand img{width:40px;height:40px;border-radius:var(--radius);display:block}
+  .brand-sub{display:block;font-size:10px;font-weight:500;font-family:var(--sans);letter-spacing:2px;color:var(--muted);line-height:1}
+  nav{display:flex;gap:24px;align-items:center}
+  nav a{font-size:0.9rem;color:var(--muted);font-weight:500;padding:6px 0;border-bottom:2px solid transparent}
+  nav a:hover,nav a[aria-current="page"]{color:var(--text);border-bottom-color:var(--brass)}
+  .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);padding:10px 18px;border-radius:var(--radius);font-size:0.9rem;font-weight:500;font-family:var(--sans);transition:all .2s}
+  .button:hover{border-color:var(--brass);background:var(--surface-2)}
+  .button.primary{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+  .button.primary:hover{background:var(--brass-2)}
+  .button.outline{border-color:var(--line);background:transparent}
+  .button.outline:hover{border-color:var(--brass)}
+  .button.small{padding:8px 14px;font-size:0.85rem}
+  .menu{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;padding:8px}
+
+  .page-head{padding:clamp(40px,5vw,70px) var(--shell-pad) 0}
+  .eyebrow{font-family:var(--sans);font-size:0.8rem;font-weight:600;letter-spacing:2px;color:var(--brass);text-transform:uppercase;margin-bottom:0.75rem;display:block}
+  .page-head h1{margin-bottom:0.75rem;max-width:700px}
+  .page-lede{font-size:1.05rem;color:var(--muted);max-width:620px;line-height:1.7}
+
+  .control-card{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);padding:2rem;margin-top:2rem}
+  .control-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem}
+  .control-q{font-family:var(--mono);font-size:0.8rem;letter-spacing:1px;color:var(--dim);text-transform:uppercase;margin-bottom:0.25rem;display:block}
+  .control-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
+
+  .trace-panel{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--radius-lg);padding:1.75rem;margin-top:2rem}
+  .trace-panel h3{margin-bottom:1rem}
+  .trace-list{display:flex;flex-direction:column;gap:0.75rem}
+  .trace-line{display:flex;align-items:baseline;gap:1rem;padding:0.75rem;border:1px solid var(--line-soft);border-radius:var(--radius);background:var(--surface)}
+  .trace-label{font-family:var(--mono);font-size:0.8rem;color:var(--muted);min-width:150px}
+  .trace-value{font-family:var(--mono);font-size:0.85rem;color:var(--text);flex:1}
+  .trace-value.ok{color:var(--ok)}
+  .trace-value.warn{color:var(--warn)}
+  .trace-value.stop{color:var(--stop)}
+
+  .verdict{margin-top:1.5rem;padding:1.5rem;border-radius:var(--radius-lg);background:var(--surface-2);border:1px solid var(--line)}
+  .verdict-head{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem}
+  .verdict-dot{width:10px;height:10px;border-radius:50%;background:var(--ok)}
+  .verdict-head h3{font-size:1rem;margin:0}
+
+  .layers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:2rem;max-width:var(--shell)}
+  .layer-card{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);padding:1.75rem}
+  .layer-card h4{font-family:var(--sans);font-weight:600;font-size:0.95rem;margin-bottom:0.75rem}
+  .layer-card ul{list-style:none}
+  .layer-card li{font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;line-height:1.6}
+
+  .steps{margin-top:3rem;max-width:var(--shell);margin-left:auto;margin-right:auto}
+  .step{display:flex;gap:1.25rem;padding:1.5rem 0;border-bottom:1px solid var(--line-soft)}
+  .step:last-child{border-bottom:none}
+  .step-num{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--dim);min-width:40px}
+  .step-body h4{font-family:var(--sans);font-weight:600;margin-bottom:0.4rem}
+  .step-body p{font-size:0.9rem;color:var(--muted);line-height:1.6}
+
+  .proof-links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem}
+  .proof-links .button{font-size:0.85rem}
+
+  footer{border-top:1px solid var(--line);padding:clamp(40px,5vw,70px) var(--shell-pad)}
+  .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem;max-width:var(--shell);margin:0 auto}
+  .footer-col h4{font-family:var(--sans);font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:1rem}
+  .footer-col ul{list-style:none}
+  .footer-col li{margin-bottom:0.6rem}
+  .footer-col a{font-size:0.9rem;color:var(--muted);transition:color .2s}
+  .footer-col a:hover{color:var(--brass)}
+  .footer-bottom{margin-top:3rem;border-top:1px solid var(--line-soft);padding-top:1.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--dim)}
+  .footer-bottom .row{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+
+  @media(max-width:768px){
+    nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--ink);border-bottom:1px solid var(--line);padding:1rem var(--shell-pad);flex-direction:column}
+    nav.open{display:flex}
+    nav a{border-bottom:none;padding:12px 0;color:var(--text)}
+    .menu{display:block}
+    .page-head h1{font-size:clamp(28px,10vw,40px)}
+    .layers-grid{grid-template-columns:1fr}
+    .control-head{flex-direction:column;align-items:flex-start}
+  }
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="shell">
+    <div class="header-wrap">
+      <a class="brand" href="../index.html#main" aria-label="We Do Care Global home">
+        <img src="../logo-small.webp" width="40" height="40" alt="We Do Care Global logo"/>
+        <span>WE DO CARE<span class="brand-sub">GLOBAL</span></span>
+      </a>
+      <button class="menu" aria-controls="main-nav" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="../index.html#systems">Systems</a>
+        <a href="../index.html#approach">Approach</a>
+        <a href="../index.html#proof">Evidence</a>
+        <a href="../omniguard.html">OmniGuard</a>
+        <a href="#" aria-current="page">Enterprise Hybrid-RAG</a>
+      </nav>
+      <a class="button primary small" href="https://github.com/WeDoCareGlobal/enterprise-hybrid-rag-next" target="_blank" rel="noopener">Repository</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="shell">
+    <div class="page-head">
+      <span class="eyebrow">Retrieval · Control surface 03</span>
+      <h1>Enterprise Hybrid-RAG</h1>
+      <p class="page-lede">Connect enterprise knowledge with hybrid lexical and dense retrieval, fused through RRF.</p>
+    </div>
+
+    <section class="control-card" id="control">
+      <div class="control-head">
+        <div>
+          <span class="control-q">Control question</span>
+          <h3>Are answers grounded in governed enterprise knowledge?</h3>
+        </div>
+        <div class="control-actions">
+          <a class="button primary" href="#demo">View retrieval demo</a>
+          <a class="button outline" href="https://github.com/WeDoCareGlobal/enterprise-hybrid-rag-next" target="_blank" rel="noopener">View repository</a>
+        </div>
+      </div>
+      <p>Hybrid retrieval combines BM25 keyword matching with dense semantic embeddings, fused through reciprocal rank fusion (RRF). Every retrieved chunk is traced to its source document with a confidence score.</p>
+      <ul style="margin-top:1rem;font-size:0.9rem;color:var(--muted);list-style:none">
+        <li style="margin-bottom:0.5rem"><strong>BM25 + dense retrieval (RRF)</strong> — keyword and semantic search fused</li>
+        <li style="margin-bottom:0.5rem"><strong>NVIDIA NeMo Retriever embeddings</strong> — enterprise-grade vector encoding</li>
+        <li style="margin-bottom:0.5rem"><strong>Multi-modal support</strong> — text, charts, structured data</li>
+        <li style="margin-bottom:0.5rem"><strong>RAGAS continuous evaluation</strong> — retrieval quality tracked over time</li>
+        <li style="margin-bottom:0"><strong>SSE streaming</strong> — real-time response delivery</li>
+      </ul>
+    </section>
+
+    <section class="trace-panel" id="demo">
+      <h3>Retrieval trace example</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem">A query is sent to the hybrid index. Each retrieval stage is scored and fused before results are returned.</p>
+      <div class="trace-list">
+        <div class="trace-line"><span class="trace-label">bm25_search</span><span class="trace-value ok">42 lexical matches found</span></div>
+        <div class="trace-line"><span class="trace-label">dense_search</span><span class="trace-value ok">38 semantic matches found</span></div>
+        <div class="trace-line"><span class="trace-label">rrf_fusion</span><span class="trace-value ok">56 results fused and ranked</span></div>
+        <div class="trace-line"><span class="trace-label">source_trace</span><span class="trace-value ok">Each chunk linked to source doc</span></div>
+        <div class="trace-line"><span class="trace-label">ragas_eval</span><span class="trace-value ok">Faithfulness: 0.94 / Context precision: 0.89</span></div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-head"><span class="verdict-dot" style="background:var(--ok)"></span><h3>Decision</h3></div>
+        <div style="font-family:var(--mono);font-size:0.85rem;color:var(--ok)">ALLOWED — grounded in verified sources</div>
+      </div>
+    </section>
+
+    <section>
+      <div style="margin-bottom:1.5rem"><span class="eyebrow">Retrieval stack</span><h2>Four retrieval layers</h2></div>
+      <div class="layers-grid">
+        <article class="layer-card">
+          <h4>Lexical (BM25)</h4>
+          <ul>
+            <li>Keyword-level matching</li>
+            <li>Exact term frequency scoring</li>
+            <li>Field-weighted results</li>
+          </ul>
+        </article>
+        <article class="layer-card">
+          <h4>Dense (NeMo)</h4>
+          <ul>
+            <li>Semantic vector embeddings</li>
+            <li>Cross-encoder reranking</li>
+            <li>Multi-language support</li>
+          </ul>
+        </article>
+        <article class="layer-card">
+          <h4>RRF Fusion</h4>
+          <ul>
+            <li>Reciprocal rank fusion scoring</li>
+            <li>Deduplicated result sets</li>
+            <li>Confidence-weighted ranking</li>
+          </ul>
+        </article>
+        <article class="layer-card">
+          <h4>Evaluation</h4>
+          <ul>
+            <li>RAGAS continuous scoring</li>
+            <li>Faithfulness & precision metrics</li>
+            <li>Regression alerts</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div style="margin-bottom:1.5rem"><span class="eyebrow">How it works</span><h2>From query to grounded answer.</h2></div>
+      <div class="step">
+        <span class="step-num">1</span>
+        <div class="step-body">
+          <h4>Query received</h4>
+          <p>User or agent submits a natural-language question.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <div class="step-body">
+          <h4>Hybrid retrieval</h4>
+          <p>BM25 and dense search run in parallel, results fused via RRF.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <div class="step-body">
+          <h4>Source trace</h4>
+          <p>Every returned chunk is linked to its source document.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <div class="step-body">
+          <h4>Evaluate & stream</h4>
+          <p>RAGAS scores the result; SSE streams it to the user.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-links">
+      <a class="button" href="https://github.com/WeDoCareGlobal/enterprise-hybrid-rag-next" target="_blank" rel="noopener">Retrieval architecture ↗</a>
+      <a class="button outline" href="../evidence.html">Evidence ↗</a>
+      <a class="button outline" href="../index.html#contact">Book walkthrough ↗</a>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>We Do Care Global</h4>
+      <ul>
+        <li><a href="https://github.com/WeDoCareGlobal" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="https://orcid.org/0009-0009-8515-2727" target="_blank" rel="noopener">ORCID ↗</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Systems</h4>
+      <ul>
+        <li><a href="../omniguard.html">OmniGuard</a></li>
+        <li><a href="../agentguard.html">AgentGuard</a></li>
+        <li><a href="../agentvault.html">AgentVault</a></li>
+        <li><a href="#">Enterprise Hybrid-RAG</a></li>
+        <li><a href="../agent-eval.html">Agent Eval</a></li>
+        <li><a href="../foundationcentar.html">FoundationCentar</a></li>
+        <li><a href="../pharma-intelligence-os.html">Pharma Intelligence OS</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../evidence.html">Evidence</a></li>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../terms.html">Site terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="row"><span>© 2026 We Do Care Global</span><span>·</span><span>Open engineering · 33% revenue pledged to humanitarian assistance</span></div>
+  </div>
+</footer>
+<script>
+  (function(){
+    const btn=document.querySelector('.menu');
+    const nav=document.getElementById('main-nav');
+    let open=false;
+    btn.addEventListener('click',()=>{open=!open;btn.setAttribute('aria-expanded',open);nav.classList.toggle('open',open);});
+    document.querySelectorAll('nav a').forEach(a=>{a.addEventListener('click',()=>{open=false;btn.setAttribute('aria-expanded','false');nav.classList.remove('open');});});
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0a0b0c"/>
+<title>We Do Care Global — Governed AI Engineering</title>
+<meta name="description" content="Seven open engineering systems for governed enterprise AI: inspection layer, control plane, retrieval, evaluation, secrets, and regulatory intelligence."/>
+<link rel="icon" href="../logo-small.webp"/>
+<style>
+  /* ==========================================================================
+     We Do Care Global — design system v6 (preview)
+     Warm graphite + bone + brass. Serif display, sans UI, mono technical.
+     Surface: Decide/Learn (landing). One idea per section; hero is correct here.
+     ========================================================================== */
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink:#0a0b0c;
+    --ink-2:#0f1112;
+    --surface:#141617;
+    --surface-2:#1a1d1e;
+    --line:#2b2e30;
+    --line-soft:#232628;
+    --bone:#f4f1ea;
+    --bone-2:#e9e4da;
+    --bone-line:#d6d0c2;
+    --on-bone:#14150f;
+    --on-bone-muted:#55544a;
+    --text:#f2efe9;
+    --muted:#a29f96;
+    --dim:#848279;
+    --brass:#9bc8ee;
+    --brass-2:#c9e4f9;
+    --brass-dim:rgba(155,200,238,0.16);
+    --ok:#74b98c;
+    --warn:#d99a52;
+    --stop:#cd7061;
+    --radius:3px;
+    --radius-lg:6px;
+    --shell:1280px;
+    --sans:'Manrope','Segoe UI',Arial,sans-serif;
+    --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+    --mono:'JetBrains Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+    --step:clamp(0.72rem,0.68rem+0.18vw,0.8rem);
+    --shell-pad:clamp(20px,4vw,64px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:100px}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:var(--step);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button,input,select,textarea{font:inherit}
+  button{cursor:pointer;background:none;border:none;padding:0}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--brass);outline-offset:4px}
+  h1,h2,h3{font-family:var(--serif);line-height:1.15}
+  h1{font-size:clamp(40px,5vw,72px);font-weight:700;letter-spacing:-2px}
+  h2{font-size:clamp(30px,3.5vw,48px);font-weight:700;letter-spacing:-1px}
+  h3{font-size:clamp(20px,2.2vw,28px);font-weight:600}
+  p{margin:0 0 1rem}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,0.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .shell{max-width:var(--shell);margin:0 auto;padding:0 var(--shell-pad)}
+  .header-wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;font-size:clamp(18px,1.8vw,24px);color:var(--text)}
+  .brand img{width:40px;height:40px;border-radius:var(--radius);display:block}
+  .brand span{letter-spacing:-0.5px}
+  .brand-sub{display:block;font-size:10px;font-weight:500;font-family:var(--sans);letter-spacing:2px;color:var(--muted);line-height:1}
+  nav{display:flex;gap:24px;align-items:center}
+  nav a{font-size:0.9rem;color:var(--muted);font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:border-color .2s}
+  nav a:hover,nav a[aria-current="page"]{color:var(--text);border-bottom-color:var(--brass)}
+  .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);padding:10px 18px;border-radius:var(--radius);font-size:0.9rem;font-weight:500;font-family:var(--sans);transition:all .2s}
+  .button:hover{border-color:var(--brass);background:var(--surface-2)}
+  .button.primary{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+  .button.primary:hover{background:var(--brass-2)}
+  .button.small{padding:8px 14px;font-size:0.85rem}
+  .button.full-width{width:100%}
+  .menu{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;padding:8px}
+
+  /* Hero — Decide/Learn surface: one idea lands here */
+  .hero{padding:clamp(60px,8vw,110px) var(--shell-pad) clamp(80px,10vw,140px)}
+  .hero-inner{max-width:var(--shell);margin:0 auto}
+  .eyebrow{font-family:var(--sans);font-size:0.85rem;font-weight:600;letter-spacing:2px;color:var(--brass);text-transform:uppercase;margin-bottom:1rem;display:block}
+  .hero h1{margin-bottom:1.5rem;max-width:900px}
+  .lede{font-size:clamp(1rem,1.2vw,1.25rem);color:var(--muted);max-width:620px;line-height:1.7;margin-bottom:2rem}
+  .hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+  .hero-stat{display:flex;gap:clamp(20px,4vw,60px);padding-top:2rem;border-top:1px solid var(--line-soft)}
+  .stat{font-family:var(--serif)}
+  .stat .big{display:block;font-size:clamp(20px,2.5vw,32px);font-weight:700;color:var(--text)}
+  .stat .label{font-family:var(--sans);font-size:0.75rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+
+  /* Systems grid — Decide/Learn: aligned columns, one differentiator emphasized */
+  .section{padding:clamp(50px,6vw,90px) var(--shell-pad)}
+  .section-head{text-align:center;max-width:700px;margin:0 auto 3rem}
+  .section-head .eyebrow{display:block;margin-bottom:0.5rem}
+  .section-head h2{margin-bottom:1rem}
+  .section-head p{color:var(--muted);font-size:1.05rem}
+  .systems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:var(--shell);margin:0 auto}
+  .system-card{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);padding:1.75rem;transition:transform .2s,border-color .2s}
+  .system-card:hover{border-color:var(--brass);transform:translateY(-4px)}
+  .system-card.featured{border-color:var(--brass);background:var(--surface-2)}
+  .system-tag{font-family:var(--mono);font-size:0.65rem;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:0.75rem;display:block}
+  .system-card h3{font-family:var(--sans);font-weight:600;font-size:1.1rem;margin-bottom:0.5rem}
+  .system-card p{font-size:0.9rem;color:var(--muted);margin-bottom:1rem;line-height:1.6}
+  .system-card .control-q{font-family:var(--mono);font-size:0.8rem;color:var(--brass);margin-bottom:0.75rem;display:block}
+  .system-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:0.85rem;font-weight:600;color:var(--text)}
+  .system-link::after{content:"→";font-size:0.7rem}
+
+  /* Approach — numbered, one idea per section */
+  .approach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;max-width:var(--shell);margin:0 auto}
+  .approach-card{padding:2rem;border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg)}
+  .approach-num{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--dim);margin-bottom:1rem;display:block}
+  .approach-card h3{font-family:var(--sans);font-weight:600;margin-bottom:0.75rem}
+  .approach-card p{font-size:0.9rem;color:var(--muted);line-height:1.6}
+
+  /* CTA */
+  .cta{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--radius-lg);padding:clamp(40px,6vw,80px) var(--shell-pad);text-align:center}
+  .cta h2{margin-bottom:1rem}
+  .cta p{color:var(--muted);max-width:560px;margin:0 auto 2rem;font-size:1.05rem}
+  .cta-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:clamp(40px,5vw,70px) var(--shell-pad)}
+  .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem;max-width:var(--shell);margin:0 auto}
+  .footer-col h4{font-family:var(--sans);font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:1rem}
+  .footer-col ul{list-style:none}
+  .footer-col li{margin-bottom:0.6rem}
+  .footer-col a{font-size:0.9rem;color:var(--muted);transition:color .2s}
+  .footer-col a:hover{color:var(--brass)}
+  .footer-bottom{margin-top:3rem;border-top:1px solid var(--line-soft);padding-top:1.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--dim)}
+  .footer-bottom .row{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+
+  @media(max-width:768px){
+    nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--ink);border-bottom:1px solid var(--line);padding:1rem var(--shell-pad);flex-direction:column;gap:0}
+    nav.open{display:flex}
+    nav a{border-bottom:none;padding:12px 0;color:var(--text)}
+    .menu{display:block}
+    .hero{padding:clamp(40px,6vw,70px) var(--shell-pad) clamp(60px,8vw,90px)}
+    .hero h1{font-size:clamp(32px,10vw,48px)}
+    .systems-grid{grid-template-columns:1fr}
+    .approach-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="shell">
+    <div class="header-wrap">
+      <a class="brand" href="#main" aria-label="We Do Care Global home">
+        <img src="../logo-small.webp" width="40" height="40" alt="We Do Care Global logo"/>
+        <span>WE DO CARE<span class="brand-sub">GLOBAL</span></span>
+      </a>
+      <button class="menu" aria-controls="main-nav" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="#systems">Systems</a>
+        <a href="#approach">Approach</a>
+        <a href="#proof">Evidence</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="button primary" href="#contact">Start Pilot</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Hero — Decide/Learn: one idea lands here -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">Open engineering · Governed enterprise AI</span>
+      <h1>Intelligence without blind spots.</h1>
+      <p class="lede">Seven engineering systems for teams that need to see what their agents do, prove why they did it, and hold the boundary while autonomy grows.</p>
+      <div class="hero-ctas">
+        <a class="button primary" href="#systems">Explore systems</a>
+        <a class="button" href="#contact">Book a walkthrough</a>
+      </div>
+      <div class="hero-stat">
+        <div class="stat"><span class="big">7</span><span class="label">Published systems</span></div>
+        <div class="stat"><span class="big">Apache-2.0</span><span class="label">Open source</span></div>
+        <div class="stat"><span class="big">33%</span><span class="label">Revenue pledged to humanitarian aid</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Systems — Decide/Learn: aligned columns, one differentiator emphasized -->
+  <section class="section" id="systems">
+    <div class="section-head">
+      <span class="eyebrow">Control surfaces</span>
+      <h2>Six systems. One clear purpose.</h2>
+      <p>Start from the problem you need to solve. Every system owns a single control question. OmniGuard sits in front of all of them, screening every request before it reaches an agent, a tool, or a model.</p>
+    </div>
+    <div class="systems-grid">
+      <article class="system-card featured">
+        <span class="system-tag">OmniGuard · Control plane</span>
+        <span class="control-q">Control question: Is every agent request screened before it acts?</span>
+        <h3>OmniGuard</h3>
+        <p>Unified gateway in front of every other system. Policy enforcement, tool-call auditing, kill switch, and approval flows for autonomous AI agents.</p>
+        <a class="system-link" href="../omniguard.html">Open OmniGuard</a>
+      </article>
+      <article class="system-card">
+        <span class="system-tag">AgentGuard · Security</span>
+        <span class="control-q">Control question: Do agent tool calls comply with explicit policies and limits?</span>
+        <h3>AgentGuard</h3>
+        <p>Policy-evaluated tool call inspection with rate limits, hash-linked audit records, and explicit ALLOW/BLOCK handling.</p>
+        <a class="system-link" href="../agentguard.html">Open AgentGuard</a>
+      </article>
+      <article class="system-card">
+        <span class="system-tag">AgentVault · Assurance</span>
+        <span class="control-q">Control question: Are tool credentials registered, rotated, and bounded?</span>
+        <h3>AgentVault</h3>
+        <p>Tool registration, secret lifecycle management, and bounded execution envelopes for AI tooling.</p>
+        <a class="system-link" href="../agentvault.html">Open AgentVault</a>
+      </article>
+      <article class="system-card">
+        <span class="system-tag">Enterprise Hybrid-RAG · Retrieval</span>
+        <span class="control-q">Control question: Are answers grounded in governed enterprise knowledge?</span>
+        <h3>Enterprise Hybrid-RAG</h3>
+        <p>Lexical plus dense retrieval fused through reciprocal rank fusion, with NVIDIA NeMo Retriever embeddings.</p>
+        <a class="system-link" href="../enterprise-hybrid-rag.html">Open Hybrid-RAG</a>
+      </article>
+      <article class="system-card">
+        <span class="system-tag">Agent Eval · Evaluation</span>
+        <span class="control-q">Control question: Can you prove agent quality and safety before expanding autonomy?</span>
+        <h3>Agent Eval</h3>
+        <p>Evidence-driven metrics and execution assessment for agentic workflows, with audit integration shared with AgentGuard.</p>
+        <a class="system-link" href="../agent-eval.html">Open Agent Eval</a>
+      </article>
+      <article class="system-card">
+        <span class="system-tag">FoundationCentar · Governance</span>
+        <span class="control-q">Control question: How do you coordinate agents with explicit ownership and human review?</span>
+        <h3>FoundationCentar</h3>
+        <p>Governance-first orchestration with CEO governance, bounded economics, and evidence-first verification.</p>
+        <a class="system-link" href="../foundationcentar.html">Open FoundationCentar</a>
+      </article>
+      <article class="system-card">
+        <span class="system-tag">Pharma Intelligence OS · Regulatory</span>
+        <span class="control-q">Control question: Can ICSR cases be reviewed with qualified human verification?</span>
+        <h3>Pharma Intelligence OS</h3>
+        <p>Browser-based pharmacovigilance workspace: ICSR review, E2B(R3) packages, PRR/ROR signal management.</p>
+        <a class="system-link" href="../pharma-intelligence-os.html">Open Pharma OS</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Approach — Operate-ish: numbered steps, one idea each -->
+  <section class="section" id="approach">
+    <div class="section-head">
+      <span class="eyebrow">The approach</span>
+      <h2>Build the capability. Keep the control.</h2>
+      <p>The useful question isn't only what an agent can do. It is how you know it did the right thing, under which policy, with which evidence.</p>
+    </div>
+    <div class="approach-grid">
+      <article class="approach-card">
+        <span class="approach-num">01</span>
+        <h3>Set the boundaries.</h3>
+        <p>Make tool access, rate limits, credential scope, and human review explicit before expanding autonomy. A policy that is not written down is not a policy.</p>
+      </article>
+      <article class="approach-card">
+        <span class="approach-num">02</span>
+        <h3>Connect the evidence.</h3>
+        <p>Ground responses in knowledge, record every decision with a hash-linked trail, and keep the inspection layer in front of the systems you actually run.</p>
+      </article>
+      <article class="approach-card">
+        <span class="approach-num">03</span>
+        <h3>Earn the next step.</h3>
+        <p>Move from demonstration to deployment through tests, operational checks, and stated acceptance criteria. A passing test is evidence, not a certification.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <h2>Ready to govern your agents?</h2>
+    <p>Book an Agent Security Assessment or start the governed-agent pilot.</p>
+    <div class="cta-group">
+      <a class="button primary" href="#contact">Book Agent Security Assessment</a>
+      <a class="button" href="../omniguard.html">Start governed-agent pilot</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>We Do Care Global</h4>
+        <ul>
+          <li><a href="https://github.com/WeDoCareGlobal" target="_blank" rel="noopener">GitHub ↗</a></li>
+          <li><a href="https://orcid.org/0009-0009-8515-2727" target="_blank" rel="noopener">ORCID ↗</a></li>
+          <li><a href="https://shop.wedocare-global.com/" target="_blank" rel="noopener">Shop ↗</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Systems</h4>
+        <ul>
+          <li><a href="../omniguard.html">OmniGuard</a></li>
+          <li><a href="../agentguard.html">AgentGuard</a></li>
+          <li><a href="../agentvault.html">AgentVault</a></li>
+          <li><a href="../enterprise-hybrid-rag.html">Enterprise Hybrid-RAG</a></li>
+          <li><a href="../agent-eval.html">Agent Eval</a></li>
+          <li><a href="../foundationcentar.html">FoundationCentar</a></li>
+          <li><a href="../pharma-intelligence-os.html">Pharma Intelligence OS</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../evidence.html">Evidence</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
+          <li><a href="../terms.html">Site terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="row">
+        <span>© 2026 We Do Care Global · Open engineering</span>
+        <span>·</span>
+        <span>33% of annual corporate revenue pledged to humanitarian assistance</span>
+      </div>
+    </div>
+  </footer>
+</main>
+<script>
+  (function(){
+    const btn=document.querySelector('.menu');
+    const nav=document.getElementById('main-nav');
+    let open=false;
+    btn.addEventListener('click',()=>{
+      open=!open;
+      btn.setAttribute('aria-expanded',open);
+      nav.classList.toggle('open',open);
+    });
+    document.querySelectorAll('nav a').forEach(a=>{
+      a.addEventListener('click',()=>{open=false;btn.setAttribute('aria-expanded','false');nav.classList.remove('open');});
+    });
+  })();
+</script>
+</body>
+</html>

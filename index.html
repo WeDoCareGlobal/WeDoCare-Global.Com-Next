@@ -2702,7 +2702,8 @@ html[data-palette=blue]{--brass:#9bc8ee;--brass-2:#c9e4f9;--brass-dim:rgba(155,2
 <h2 class="h2">What are you<br/>building <em class="serif-em">toward?</em></h2>
 <p class="lede">Bring a concrete challenge. We'll find the right starting point for your AI infrastructure — and say plainly if the answer is that you don't need all seven systems.</p>
 <p><a class="btn btn-primary" href="ai-security-assessment.html">Request an AI Security Assessment <span aria-hidden="true">↗</span></a></p>
-<a class="contact-email" href="mailto:emir@wedocare-global.com">emir@wedocare-global.com ↗</a>
+<p style="margin-bottom:0"><strong>Enterprise:</strong> <a class="contact-email" href="mailto:info@shop.wedocare-global.com?subject=Enterprise%20inquiry" target="_blank" rel="noopener">info@shop.wedocare-global.com ↗</a></p>
+<p style="margin-top:6px"><strong>Founder (Emir Perla):</strong> <a class="contact-email" href="mailto:emir@wedocare-global.com?subject=Founder%20inquiry" target="_blank" rel="noopener">emir@wedocare-global.com ↗</a></p>
 <p class="note">Sarajevo, Bosnia and Herzegovina · Open to global collaboration</p>
 </div>
 <form action="#contact" class="reveal" id="contact-form" method="post">
@@ -2735,7 +2736,7 @@ html[data-palette=blue]{--brass:#9bc8ee;--brass-2:#c9e4f9;--brass-dim:rgba(155,2
 <button class="btn" data-enhanced="" hidden="" id="copy-inquiry" type="button">Copy inquiry</button>
 <button class="btn" data-enhanced="" hidden="" id="download-inquiry" type="button">Download inquiry</button>
 </div>
-<noscript><p>To contact us, email <a class="link" href="mailto:emir@wedocare-global.com">emir@wedocare-global.com</a>. Form preparation requires JavaScript; no form data is submitted by this page.</p></noscript>
+<noscript><p>To contact us, email <strong>Enterprise:</strong> <a class="link" href="mailto:info@shop.wedocare-global.com?subject=Enterprise%20inquiry" target="_blank" rel="noopener">info@shop.wedocare-global.com ↗</a> or <strong>Founder:</strong> <a class="link" href="mailto:emir@wedocare-global.com?subject=Founder%20inquiry" target="_blank" rel="noopener">emir@wedocare-global.com ↗</a>. Form preparation requires JavaScript; no form data is submitted by this page.</p></noscript>
 <div class="preview-box" hidden="" id="inquiry-preview">
 <label for="prepared-inquiry">Your prepared inquiry</label>
 <textarea id="prepared-inquiry" readonly="" rows="8"></textarea>
@@ -2914,17 +2915,20 @@ if (form) {
   function inquiry() {
     if (!form.reportValidity()) return null;
     const data = new FormData(form);
-    const subject = `We Do Care Global inquiry: ${data.get('interest')}`;
-    const body = `Name: ${String(data.get('name')).trim()}\nEmail: ${String(data.get('email')).trim()}\nInterest: ${data.get('interest')}\n\n${String(data.get('message')).trim()}`;
-    const text = `To: emir@wedocare-global.com\nSubject: ${subject}\n\n${body}`;
-    document.querySelector('#prepared-inquiry').value = text;
-    document.querySelector('#inquiry-preview').hidden = false;
-    return { subject, body, text };
+      const interest = String(data.get('interest')).toLowerCase();
+      const isEnterprise = interest.includes('enterprise') || interest.includes('partnership') || interest.includes('pharma');
+      const toEmail = isEnterprise ? 'info@shop.wedocare-global.com' : 'emir@wedocare-global.com';
+      const subject = `We Do Care Global inquiry: ${data.get('interest')}`;
+      const body = `Name: ${String(data.get('name')).trim()}\nEmail: ${String(data.get('email')).trim()}\nInterest: ${data.get('interest')}\n\n${String(data.get('message')).trim()}`;
+      const text = `To: ${toEmail}\nSubject: ${subject}\n\n${body}`;
+      document.querySelector('#prepared-inquiry').value = text;
+      document.querySelector('#inquiry-preview').hidden = false;
+      return { subject, body, text, to: toEmail };
   }
   document.querySelector('#prepare-inquiry').addEventListener('click', () => {
     const draft = inquiry();
     if (!draft) return;
-    const url = `mailto:emir@wedocare-global.com?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.body)}`;
+    const url = `mailto:${draft.to}?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.body)}`;
     if (url.length > 1800) {
       status.textContent = 'Your inquiry is ready below. For long messages, copy or download it and paste it into your email service. Nothing has been sent.';
       return;

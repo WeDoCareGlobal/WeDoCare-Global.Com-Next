@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0a0b0c"/>
+<title>AgentGuard | We Do Care Global</title>
+<meta name="description" content="Make agent tool calls subject to explicit policies, limits and inspectable audit records."/>
+<link rel="icon" href="../logo-small.webp"/>
+<style>
+  /* ==========================================================================
+     AgentGuard — preview (Operate surface)
+     Action affordances and selection state dominate. No hero+3-cards here.
+     ========================================================================== */
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink:#0a0b0c;
+    --surface:#141617;
+    --surface-2:#1a1d1e;
+    --line:#2b2e30;
+    --line-soft:#232628;
+    --bone:#f4f1ea;
+    --text:#f2efe9;
+    --muted:#a29f96;
+    --dim:#848279;
+    --brass:#9bc8ee;
+    --brass-2:#c9e4f9;
+    --brass-dim:rgba(155,200,238,0.16);
+    --ok:#74b98c;
+    --warn:#d99a52;
+    --stop:#cd7061;
+    --radius:3px;
+    --radius-lg:6px;
+    --shell:1280px;
+    --sans:'Manrope','Segoe UI',Arial,sans-serif;
+    --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+    --mono:'JetBrains Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+    --step:clamp(0.72rem,0.68rem+0.18vw,0.8rem);
+    --shell-pad:clamp(20px,4vw,64px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:100px}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:var(--step);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  button,input,select,textarea{font:inherit}
+  button{cursor:pointer}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--brass);outline-offset:4px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  h1,h2,h3{font-family:var(--serif);line-height:1.15}
+  h1{font-size:clamp(32px,4vw,52px);font-weight:700;letter-spacing:-1px}
+  h2{font-size:clamp(26px,3vw,40px);font-weight:700;letter-spacing:-0.5px}
+  h3{font-family:var(--sans);font-weight:600;font-size:1.05rem;letter-spacing:-0.3px}
+  p{margin:0 0 1rem}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,0.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .shell{max-width:var(--shell);margin:0 auto;padding:0 var(--shell-pad)}
+  .header-wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;font-size:clamp(18px,1.8vw,22px);color:var(--text)}
+  .brand img{width:40px;height:40px;border-radius:var(--radius);display:block}
+  .brand-sub{display:block;font-size:10px;font-weight:500;font-family:var(--sans);letter-spacing:2px;color:var(--muted);line-height:1}
+  nav{display:flex;gap:24px;align-items:center}
+  nav a{font-size:0.9rem;color:var(--muted);font-weight:500;padding:6px 0;border-bottom:2px solid transparent}
+  nav a:hover,nav a[aria-current="page"]{color:var(--text);border-bottom-color:var(--brass)}
+  .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);padding:10px 18px;border-radius:var(--radius);font-size:0.9rem;font-weight:500;font-family:var(--sans);transition:all .2s}
+  .button:hover{border-color:var(--brass);background:var(--surface-2)}
+  .button.primary{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+  .button.primary:hover{background:var(--brass-2)}
+  .button.outline{border-color:var(--line);background:transparent}
+  .button.outline:hover{border-color:var(--brass)}
+  .button.small{padding:8px 14px;font-size:0.85rem}
+  .button.full-width{width:100%}
+  .menu{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;padding:8px}
+
+  /* Page header */
+  .page-head{padding:clamp(40px,5vw,70px) var(--shell-pad) 0}
+  .eyebrow{font-family:var(--sans);font-size:0.8rem;font-weight:600;letter-spacing:2px;color:var(--brass);text-transform:uppercase;margin-bottom:0.75rem;display:block}
+  .page-head h1{margin-bottom:0.75rem;max-width:700px}
+  .page-lede{font-size:1.05rem;color:var(--muted);max-width:620px;line-height:1.7}
+
+  /* Control card — Operate: clear boundary, action first */
+  .control-card{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);padding:2rem;margin-top:2rem}
+  .control-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem}
+  .control-q{font-family:var(--mono);font-size:0.8rem;letter-spacing:1px;color:var(--dim);text-transform:uppercase;margin-bottom:0.25rem;display:block}
+  .control-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
+
+  /* Decision trace — Monitor-ish: glanceable state */
+  .trace-panel{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--radius-lg);padding:1.75rem;margin-top:2rem}
+  .trace-panel h3{margin-bottom:1rem}
+  .trace-list{display:flex;flex-direction:column;gap:0.75rem}
+  .trace-line{display:flex;align-items:baseline;gap:1rem;padding:0.75rem;border:1px solid var(--line-soft);border-radius:var(--radius);background:var(--surface)}
+  .trace-label{font-family:var(--mono);font-size:0.8rem;color:var(--muted);min-width:150px}
+  .trace-value{font-family:var(--mono);font-size:0.85rem;color:var(--text);flex:1}
+  .trace-value.pass{color:var(--ok)}
+  .trace-value.review{color:var(--warn)}
+  .trace-value.stop{color:var(--stop)}
+
+  .verdict{margin-top:1.5rem;padding:1.5rem;border-radius:var(--radius-lg);background:var(--surface-2);border:1px solid var(--line)}
+  .verdict-head{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem}
+  .verdict-dot{width:10px;height:10px;border-radius:50%;background:var(--stop)}
+  .verdict-head h3{font-size:1rem;margin:0}
+  .verdict-body{font-family:var(--mono);font-size:0.85rem;color:var(--text)}
+  .verdict-body.stop{color:var(--stop)}
+
+  /* Layers grid — Operate: aligned columns */
+  .layers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:2rem;max-width:var(--shell)}
+  .layer-card{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);padding:1.75rem}
+  .layer-card h4{font-family:var(--sans);font-weight:600;font-size:0.95rem;margin-bottom:0.75rem}
+  .layer-card ul{list-style:none}
+  .layer-card li{font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;line-height:1.6}
+  .layer-card li::before{content:"▪";color:var(--brass);font-weight:700;display:inline-block;width:0.75em;margin-right:0.5em}
+
+  /* Steps — Operate: numbered flow */
+  .steps{margin-top:3rem;max-width:var(--shell);margin-left:auto;margin-right:auto}
+  .step{display:flex;gap:1.25rem;padding:1.5rem 0;border-bottom:1px solid var(--line-soft)}
+  .step:last-child{border-bottom:none}
+  .step-num{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--dim);min-width:40px}
+  .step-body h4{font-family:var(--sans);font-weight:600;margin-bottom:0.4rem}
+  .step-body p{font-size:0.9rem;color:var(--muted);line-height:1.6}
+
+  /* Proof links */
+  .proof-links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem}
+  .proof-links .button{font-size:0.85rem}
+
+  /* Pricing strip — Decide/Learn element inside Operate page, kept minimal */
+  .pricing-strip{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--radius-lg);padding:2rem;margin-top:3rem;max-width:var(--shell);margin-left:auto;margin-right:auto}
+  .pricing-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+  .pricing-head h3{font-family:var(--sans);font-weight:600;font-size:1.1rem}
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+  .price-card{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:1.5rem}
+  .price-card h4{font-family:var(--sans);font-weight:600;font-size:0.95rem;margin-bottom:0.5rem}
+  .price{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:0.25rem}
+  .price .period{font-size:0.75rem;color:var(--muted);font-weight:500}
+  .price-card ul{list-style:none;font-size:0.8rem;color:var(--muted)}
+  .price-card li{margin-bottom:0.4rem;line-height:1.5}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:clamp(40px,5vw,70px) var(--shell-pad)}
+  .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem;max-width:var(--shell);margin:0 auto}
+  .footer-col h4{font-family:var(--sans);font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:1rem}
+  .footer-col ul{list-style:none}
+  .footer-col li{margin-bottom:0.6rem}
+  .footer-col a{font-size:0.9rem;color:var(--muted);transition:color .2s}
+  .footer-col a:hover{color:var(--brass)}
+  .footer-bottom{margin-top:3rem;border-top:1px solid var(--line-soft);padding-top:1.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--dim)}
+  .footer-bottom .row{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+
+  @media(max-width:768px){
+    nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--ink);border-bottom:1px solid var(--line);padding:1rem var(--shell-pad);flex-direction:column;gap:0}
+    nav.open{display:flex}
+    nav a{border-bottom:none;padding:12px 0;color:var(--text)}
+    .menu{display:block}
+    .page-head h1{font-size:clamp(28px,10vw,40px)}
+    .layers-grid{grid-template-columns:1fr}
+    .control-head{flex-direction:column;align-items:flex-start}
+  }
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="shell">
+    <div class="header-wrap">
+      <a class="brand" href="../index.html#main" aria-label="We Do Care Global home">
+        <img src="../logo-small.webp" width="40" height="40" alt="We Do Care Global logo"/>
+        <span>WE DO CARE<span class="brand-sub">GLOBAL</span></span>
+      </a>
+      <button class="menu" aria-controls="main-nav" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="../index.html#systems">Systems</a>
+        <a href="../index.html#approach">Approach</a>
+        <a href="../index.html#proof">Evidence</a>
+        <a href="../omniguard.html">OmniGuard</a>
+        <a href="#" aria-current="page">AgentGuard</a>
+      </nav>
+      <a class="button primary small" href="https://github.com/WeDoCareGlobal/agentguard-next" target="_blank" rel="noopener">Repository</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="shell">
+    <div class="page-head">
+      <span class="eyebrow">Security · Control surface 01</span>
+      <h1>AgentGuard</h1>
+      <p class="page-lede">Make agent tool calls subject to explicit policies, limits and inspectable audit records. Boundaries before capability.</p>
+    </div>
+
+    <!-- Control question — Operate: the boundary -->
+    <section class="control-card" id="control">
+      <div class="control-head">
+        <div>
+          <span class="control-q">Control question</span>
+          <h3>How do you ensure agent tool calls comply with explicit policies and limits?</h3>
+        </div>
+        <div class="control-actions">
+          <a class="button primary" href="#demo">Run inspection demo</a>
+          <a class="button outline" href="https://github.com/WeDoCareGlobal/agentguard-next" target="_blank" rel="noopener">View repository</a>
+        </div>
+      </div>
+      <p>AgentGuard decides whether a specific tool call is permitted, under which limits, and records the reasoning so the decision can be questioned later. Each call is evaluated against a declared policy: role, tool, resource scope, and rate limit. A call that matches no rule is denied rather than permitted by default.</p>
+      <ul style="margin-top:1rem;font-size:0.9rem;color:var(--muted);list-style:none">
+        <li style="margin-bottom:0.5rem"><strong>Default-deny policy engine</strong> — no rule means no access</li>
+        <li style="margin-bottom:0.5rem"><strong>Per-agent rate limits</strong> — boundary produces a refusal, not a timeout</li>
+        <li style="margin-bottom:0.5rem"><strong>HMAC-chained audit log</strong> — modified entries break verification</li>
+        <li style="margin-bottom:0.5rem"><strong>Human-in-the-loop approvals</strong> — approval required in policy, not separate workflow</li>
+        <li style="margin-bottom:0"><strong>Kill-switch coordination</strong> — instant halt across all agents</li>
+      </ul>
+    </section>
+
+    <!-- Live inspection demo — Operate: clickable primary path -->
+    <section class="trace-panel" id="demo">
+      <h3>Live control example</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem">An agent requests: <strong>"Delete inactive customer records."</strong> OmniGuard inspects, checks the trust boundary, evaluates tool policy, scores session risk, and returns a governed decision.</p>
+      <div class="trace-list">
+        <div class="trace-line"><span class="trace-label">injection_check</span><span class="trace-value pass">PASS — no instruction override pattern</span></div>
+        <div class="trace-line"><span class="trace-label">trust_boundary</span><span class="trace-value pass">PASS — source marked untrusted</span></div>
+        <div class="trace-line"><span class="trace-label">vault_lookup</span><span class="trace-value pass">2 scoped credentials resolved</span></div>
+        <div class="trace-line"><span class="trace-label">policy_engine</span><span class="trace-value review">REVIEW: destructive action</span></div>
+        <div class="trace-line"><span class="trace-label">session_risk</span><span class="trace-value pass">0.18 / elevated</span></div>
+        <div class="trace-line"><span class="trace-label">governance</span><span class="trace-value review">Human approval required</span></div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-head"><span class="verdict-dot" style="background:var(--stop)"></span><h3>Decision</h3></div>
+        <div class="verdict-body stop">BLOCKED — pending human approval</div>
+      </div>
+      <div class="control-actions" style="margin-top:1.5rem">
+        <button class="button" id="run-demo">Run inspection</button>
+        <button class="button outline" id="reset-demo">Reset</button>
+      </div>
+    </section>
+
+    <!-- Enforcement layers — Operate: aligned columns -->
+    <section>
+      <div class="section-head" style="margin-bottom:1.5rem">
+        <span class="eyebrow">Enforcement layers</span>
+        <h2>Four enforcement layers</h2>
+      </div>
+      <div class="layers-grid">
+        <article class="layer-card">
+          <h4>Layer 1 · Policy</h4>
+          <ul>
+            <li>Role, tool, resource scope evaluation</li>
+            <li>Allow / block / review rules</li>
+            <li>Rate limits per caller and tool</li>
+          </ul>
+        </article>
+        <article class="layer-card">
+          <h4>Layer 2 · Audit</h4>
+          <ul>
+            <li>Hash-linked append-only log</li>
+            <li>Tamper-evident chain verification</li>
+            <li>Export to SIEM / GRC</li>
+          </ul>
+        </article>
+        <article class="layer-card">
+          <h4>Layer 3 · Approval</h4>
+          <ul>
+            <li>Human-in-the-loop decisions</li>
+            <li>Single-use, expiring approval tokens</li>
+            <li>Admin issuance only</li>
+          </ul>
+        </article>
+        <article class="layer-card">
+          <h4>Layer 4 · Kill switch</h4>
+          <ul>
+            <li>Instant halt across all agents</li>
+            <li>Durable state preserved</li>
+            <li>Resume after review</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- How it works — Operate: numbered flow -->
+    <section class="steps">
+      <div style="margin-bottom:1.5rem"><span class="eyebrow">How it works</span><h2>One request. An explicit boundary.</h2></div>
+      <div class="step">
+        <span class="step-num">1</span>
+        <div class="step-body">
+          <h4>Register agent & tools</h4>
+          <p>Define agents, tools, data sources, and risk tiers in the policy.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <div class="step-body">
+          <h4>Define policy & approvals</h4>
+          <p>Set allow/block/review rules, rate limits, and human approvers.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <div class="step-body">
+          <h4>Route through OmniGuard</h4>
+          <p>Every agent request passes through the enforcement pipeline.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <div class="step-body">
+          <h4>Approve, block, or allow</h4>
+          <p>Decisions returned with governance headers and audit chain.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing — minimal Decide/Learn element -->
+    <section class="pricing-strip">
+      <div class="pricing-head">
+        <h3>Pricing</h3>
+        <a class="button primary" href="../omniguard.html#pricing">See all tiers</a>
+      </div>
+      <div class="pricing-grid">
+        <article class="price-card">
+          <h4>Community</h4>
+          <div class="price">Free</div>
+          <ul>
+            <li>Local-only usage</li>
+            <li>1 workspace</li>
+            <li>Basic policies</li>
+            <li>Local audit</li>
+          </ul>
+        </article>
+        <article class="price-card">
+          <h4>Team</h4>
+          <div class="price">€750<span class="period">/mo</span></div>
+          <ul>
+            <li>Hosted control plane</li>
+            <li>SSO (OIDC/SAML)</li>
+            <li>Policy Studio</li>
+            <li>90-day audit retention</li>
+          </ul>
+        </article>
+        <article class="price-card">
+          <h4>Enterprise</h4>
+          <div class="price">Custom<span class="period">From €80K/yr</span></div>
+          <ul>
+            <li>Private/VPC deployment</li>
+            <li>BYOK encryption</li>
+            <li>SIEM/GRC export</li>
+            <li>Premium SLA</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Proof -->
+    <section style="margin-top:3rem">
+      <div class="proof-links">
+        <a class="button" href="https://github.com/WeDoCareGlobal/agentguard-next" target="_blank" rel="noopener">Security architecture ↗</a>
+        <a class="button outline" href="../evidence.html">Evidence ↗</a>
+        <a class="button outline" href="../index.html#contact">Book walkthrough ↗</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>We Do Care Global</h4>
+      <ul>
+        <li><a href="https://github.com/WeDoCareGlobal" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="https://orcid.org/0009-0009-8515-2727" target="_blank" rel="noopener">ORCID ↗</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Systems</h4>
+      <ul>
+        <li><a href="../omniguard.html">OmniGuard</a></li>
+        <li><a href="../agentguard.html">AgentGuard</a></li>
+        <li><a href="../agentvault.html">AgentVault</a></li>
+        <li><a href="../enterprise-hybrid-rag.html">Enterprise Hybrid-RAG</a></li>
+        <li><a href="../agent-eval.html">Agent Eval</a></li>
+        <li><a href="../foundationcentar.html">FoundationCentar</a></li>
+        <li><a href="../pharma-intelligence-os.html">Pharma Intelligence OS</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../evidence.html">Evidence</a></li>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../terms.html">Site terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="row"><span>© 2026 We Do Care Global</span><span>·</span><span>Open engineering · 33% revenue pledged to humanitarian assistance</span></div>
+  </div>
+</footer>
+<script>
+  (function(){
+    const btn=document.querySelector('.menu');
+    const nav=document.getElementById('main-nav');
+    let open=false;
+    btn.addEventListener('click',()=>{open=!open;btn.setAttribute('aria-expanded',open);nav.classList.toggle('open',open);});
+    document.querySelectorAll('nav a').forEach(a=>{a.addEventListener('click',()=>{open=false;btn.setAttribute('aria-expanded','false');nav.classList.remove('open');});});
+
+    const runBtn=document.getElementById('run-demo');
+    const resetBtn=document.getElementById('reset-demo');
+    const lines=document.querySelectorAll('.trace-line');
+    const verdictBody=document.querySelector('.verdict-body');
+    let running=false;
+    const steps=[{label:'injection_check',pass:true,text:'PASS — no instruction override pattern'},{label:'trust_boundary',pass:true,text:'PASS — source marked untrusted'},{label:'vault_lookup',pass:true,text:'2 scoped credentials resolved'},{label:'policy_engine',pass:false,text:'REVIEW: destructive action',review:true},{label:'session_risk',pass:true,text:'0.18 / elevated'},{label:'governance',pass:false,text:'Human approval required',review:true}];
+    let step=0;
+    function animate(){
+      if(step>=steps.length){verdictBody.textContent='BLOCKED — pending human approval';verdictBody.className='verdict-body stop';running=false;runBtn.disabled=false;return;}
+      const line=lines[step];const s=steps[step];
+      line.classList.remove('pending');
+      if(s.pass){line.classList.add('pass');line.querySelector('.trace-value').textContent=s.text;}
+      else if(s.review){line.classList.add('review');line.querySelector('.trace-value').textContent=s.text;}
+      step++;setTimeout(animate,350);
+    }
+    runBtn.addEventListener('click',()=>{
+      if(running)return;running=true;runBtn.disabled=true;resetBtn.disabled=true;
+      lines.forEach(l=>{l.className='trace-line pending';l.querySelector('.trace-value').textContent='—';});
+      verdictBody.textContent='BLOCKED — pending human approval';verdictBody.className='verdict-body stop';
+      step=0;animate();
+    });
+    resetBtn.addEventListener('click',()=>{
+      if(running)return;
+      lines.forEach(l=>{l.className='trace-line';l.querySelector('.trace-value').textContent='—';});
+      verdictBody.textContent='BLOCKED — pending human approval';verdictBody.className='verdict-body stop';
+      runBtn.disabled=false;resetBtn.disabled=false;step=0;
+    });
+  })();
+</script>
+</body>
+</html>
